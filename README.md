@@ -2,7 +2,7 @@
 Personal learning notes for [Udacity SUSE Cloud Native Foundations Scholarship](https://www.udacity.com/scholarships/suse-cloud-native-foundations-scholarship).
 
 ## LESSON 2: Architecture Consideration for Cloud Native Applications
-- The two main approaches that are commonly referenced in the industry are **monoliths** and **microservices**. By the end of this lesson, we should be able to evaluate the most suitable architecture for you application considering the functional requirement, developer resources, and timeframe.
+- The two main approaches that are commonly referenced in the industry are **monoliths** and **microservices**. By the end of this lesson, we should be able to evaluate the most suitable architecture for your application considering the functional requirement, developer resources, and timeframe.
 - When building an application, do context discovery:
   1. List the **functional requirements**: what application capabilities should deliver to the end-users. Find out the following:
       - Stakeholders: the personas that require and sponsor this application, e.g., marketing teams want to build a new dashboard.
@@ -41,3 +41,20 @@ Personal learning notes for [Udacity SUSE Cloud Native Foundations Scholarship](
 - Further reading:
   - [What’s the Difference Between Monolith and Microservices?](https://nordicapis.com/whats-the-difference-between-monolith-and-microservices/)
   - [Microservices vs Monolithic Architecture](https://www.mulesoft.com/resources/api/microservices-vs-monolithic)
+- The trade-offs for Monoliths and Microservices:
+  - **Development Complexity**: addresses the effort required to deploy and manage an application.
+  - **Scalability**: captures how an application scales up and down, based on the incoming traffic.
+  - **Time to deploy**: refers to the ability to build a delivery pipeline and ship features.
+  - **Flexibility**: implies the ability to adapt to new technologies and introduce new functionalities.
+  - **Operational Cost**: encapsulates the necessary resources to build, deploy, and release a product.
+  - **Reliability**: ability to recover from failure and waste monitoring application.
+  - Table comparison:
+    | Trade-offs | Monoliths | Microservices |
+    | --- | --- | --- |
+    | Development Complexity | Single framework/language, single repository, sequential development | Multiple languages, multiple repository (separated codebase), enables concurrent development |
+    | Scalability | Replication of the entire stack with all the functionalities causing more space consumption than actually needed | Replication of separate functionalities (only replicate specific component alone), on-demand resource consumption |
+    | Time to deploy | - One delivery pipeline (all components are developed in the same code repository)<br />- Entire stack deployment - can be disastrous if a release failes as it will take down the entire application (high risk of violating the zero downtime principle)<br />- Low velocity at scale as every release implies the redeploy of the entire stack | - Multiple delivery pipeline (one pipeline per codebase)<br />- Separate function deployment (each function is deployed independently without affecting the availability for the component - less risk to take down the entire application within release)<br />- Allow increase velocity of future development as we can have more releases with less risk |
+    | Flexibility | Low - need to change entire stack | High - loosely coupled and allows independent changes to services |
+    | Operational Cost | Low initial cost - only one codebase so there's only one delivery pipeline, but **high** cost at scale - more complexity and consume more resources when replicated | High initial cost - multiple delivery pipelines, but **low** cost at scale - proportional to the required resources at the time |
+    | Reliability | Need to troubleshoot and recover the **entire** stack<br />- Low visibility - difficult to have granular visibility because the entire application will be aggregated together | - Recovery of the **failed component** only<br />- High visibility - can have detailed metrics and logs of a separate unit |
+- Each application architecture has a set of trade-offs that need to be considered at the **genesis** of a project. But more importantly, it is paramount to understand how the application will be **maintained in the future** e.g. at scale, under load, supporting multiple releases a day, etc.
