@@ -58,3 +58,23 @@ Personal learning notes for [Udacity SUSE Cloud Native Foundations Scholarship](
     | Operational Cost | Low initial cost - only one codebase so there's only one delivery pipeline, but **high** cost at scale - more complexity and consume more resources when replicated | High initial cost - multiple delivery pipelines, but **low** cost at scale - proportional to the required resources at the time |
     | Reliability | Need to troubleshoot and recover the **entire** stack<br />- Low visibility - difficult to have granular visibility because the entire application will be aggregated together | - Recovery of the **failed component** only<br />- High visibility - can have detailed metrics and logs of a separate unit |
 - Each application architecture has a set of trade-offs that need to be considered at the **genesis** of a project. But more importantly, it is paramount to understand how the application will be **maintained in the future** e.g. at scale, under load, supporting multiple releases a day, etc.
+- A set of good development practices can be applied to improve the application lifecycle throughout the release and maintenance phases, regardless of the architecture chosen. These practices are focused on:
+  - Health checks
+    - Implemented to showcase the status of an application.
+    - Usually represented by an HTTP endpoint such as `/healthz` or `/status` that return an HTTP response showcasing if the application is healthy or in an error state.
+  - Metrics
+    - Are necessary to understand the behavior of an application, contains statistics for individual service. These statistics should be gathered for individual services as it will increase the visibility of what resources the application requires to be fully operational (e.g., amount of CPU, memory, or network throughput).
+    - Also can report the number of resources it is capable to handle, e.g., amount of request, active users, or the amount of logins.
+    - Usually, the metrics are consumed via an HTTP endpoint such as forward `metrics` which returns the statistics for the service, e.g., the amount of users or the amount of active users.
+  - Logs
+    - The heart of any troubleshooting and debugging process for a project, logs are used to record operations that are performed by a service, e.g., whether a user has successfully logged into a service or a user encountered an error while reaching a particular function
+    - Logs are collected through a passive logging mechanism, via STDOUT (standard out) and STDERR (standard error). This means that any output or errors from the application are sent to the shell, then collected by a logging tool, such as Fluentd or Splunk, and stored in back-end storage or database.
+    - However, the application can send the logs record directly to the back-end storage or a database. In this case, an active logging is used, as the log transmission is handled directly by the application, without a logging tool required.
+  - Tracing
+    - Showing a holistic picture of how different services are invoked to fulfill a request.
+    - Make it possible to recreate and analyze the lifecycle for request and identify key metrics within an application.
+    - Tracing is implemented at the application layer, where the developer will be able to record when a function is invoked.
+  - Resource conusumption
+    - Refers to the amount of CPU and memory an application requires to be fully operational.
+    - Additionally, it is beneficial to benchmark the network throughput, or how many requests can an application handle concurrently.
+    - Having awareness of the application boundaries is essential to ensure 24/7 service availabilty.
