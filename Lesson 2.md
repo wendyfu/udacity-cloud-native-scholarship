@@ -78,3 +78,13 @@ Personal learning notes for [Udacity SUSE Cloud Native Foundations Scholarship](
     - Refers to the amount of CPU and memory an application requires to be fully operational.
     - Additionally, it is beneficial to benchmark the network throughput, or how many requests can an application handle concurrently.
     - Having awareness of the application boundaries is essential to ensure 24/7 service availabilty.
+- Edge Case: Amorphous Application
+  - Throughout the maintenance stage, the application structure and functionalities can change.
+  - When considering adding new functionalities or incorporating new tools, it is always beneficial to focus on **extensibility rather than flexibility**: it is more efficient to manage multiple services with a well-defined and simple functionality (as in the case of microservices), rather than add more abstraction layers to support new services (as we’ve seen with the monoliths)
+  - Some of the most encountered operations in the maintenance phase are listed below:
+    - A **split** operation - is applied if a service covers too many functionalities and it's complex to manage. Having smaller, manageable units is preferred in this context.
+    - A **merge** operation- is applied if units are too granular or perform closely interlinked operations, and it provides a development advantage to merge these together. For example, merging 2 separate services for log output and log format in a single service.
+    - A **replace** operation - is adopted when a more efficient implementation is identified for a service. For example, rewriting a Java service in Go, to optimize the overall execution time.
+    - A **stale** operation - is performed for services that are no longer providing any business value, and should be archived or deprecated. For example, services that were used to perform a one-off migration process.
+    - ![image](https://user-images.githubusercontent.com/13144571/123508323-e036e880-d698-11eb-9f8d-48d7ef72aa99.png)
+- Overall, the end goal is to ensure the application is providing value to customers and is easy to manage by the engineering team. But more importantly, it can be observed that the structure of a project is not static. It amorphous and it evolves based on new requirements and customer feedback.
