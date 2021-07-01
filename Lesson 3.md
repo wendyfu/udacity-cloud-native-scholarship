@@ -43,5 +43,61 @@ RUN pip install -r requirements.txt
 # For example, start the `app.py` application.
 CMD [ "python", "app.py" ]
 ```
-- a Docker image: [TBD]
+- a Docker image: the DOckerfile instructionns will be used to build a Docker image. A Docker image is a read-only template that is used to spin up a runnable instance of an application. In a nutsell, we can use a Docker image to create a container with the package source code, configuration files, and any dependencies related to the application.
+  - A Docker image can be built from an existing Dockerfile using the `docker build` command. Below is the syntax for this command:
+```
+# build an image
+# OPTIONS - optional;  define extra configuration
+# PATH - required;  sets the location of the Dockefile and  any referenced files 
+docker build [OPTIONS] PATH
+
+# Where OPTIONS can be:
+-t, --tag - set the name and tag of the image
+-f, --file - set the name of the Dockerfile
+--build-arg - set build-time variables
+
+# Find all valid options for this command 
+docker build --help
+```
+  - For example, to build the image of the Python hello-world application from the Dockerfile, the following command can be used:
+```
+# build an image using the Dockerfile from the current directory
+docker build -t python-helloworld .
+
+# build an image using the Dockerfile from the `lesson1/python-app` directory
+docker build -t python-helloworld lesson1/python-app
+```
+  - To create a container using an available Docker image, the docker run command is available. Below is the syntax for this command:
+```
+# execute an image
+# OPTIONS - optional;  define extra configuration
+# IMAGE -  required; provides the name of the image to be executed
+# COMMAND and ARGS - optional; instruct the container to run specific commands when it starts 
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+# Where OPTIONS can be:
+-d, --detach - run in the background 
+-p, --publish - expose container port to host
+-it - start an interactive shell
+
+# Find all valid options for this command 
+docker run --help
+```
+  - For example, to run the Python hello-world application, using the created image, the following command can be used:
+```
+# run the `python-helloworld` image, in detached mode and expose it on port `5111`
+docker run -d -p 5111:5000 python-helloworld
+```
+(Note: To access the application in a browser, we need to bind the Docker container port to a port on the host or local machine. In this case, 5111 is the host port that we use to access the application e.g. http://127.0.0.1:5111/. The 5000 is the container port that the application is listening to for incoming requests.)
+  - To retrieve the Docker container logs use the docker logs {{ CONTAINER_ID }} command. For example:
+```
+docker logs 95173091eb5e
+
+## Example output from a Flask application
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+```
 - a Docker registry: [TBD]
