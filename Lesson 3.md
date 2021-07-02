@@ -100,4 +100,31 @@ docker logs 95173091eb5e
    Use a production WSGI server instead.
  * Debug mode: off
 ```
-- a Docker registry: [TBD]
+- a Docker registry: Once we have created and tested the Docker image, the next step is to store it to an image registry. This enables us to access the image on other machines than our local desktop. As such, an image registry is a mechanism to store and distribute Docker images.
+  - Public Docker image registry example: DockerHub, Harbor, Google Container Registry.
+  - Private image registry enables image restriction to be private and only available to trusted parties (a team would have full control on who can access and build the image).
+  - Step for distributing Docker image:
+    1. tag the image: use `docker tag`. If no tag provided, then the image will be automatically allocated a random alphanumeric string ID.
+    2. push the image: use `docker push`
+  - Example:
+```
+# tag an image
+# SOURCE_IMAGE[:TAG]  - required and the tag is optional; define the name of an image on the current machine 
+# TARGET_IMAGE[:TAG] -  required and the tag is optional; define the repository, name, and version of an image
+# docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+
+# tag the `python-helloworld` image, to be pushed 
+# in the `pixelpotato` repository, with the `python-helloworld` image name
+# and version `v1.0.0`
+docker tag python-helloworld pixelpotato/python-helloworld:v1.0.0
+```
+
+```
+# push an image to a registry 
+# NAME[:TAG] - required and the tag is optional; name, set the image name to be pushed to the registry
+# docker push NAME[:TAG]
+
+# push the `python-helloworld` application in version v1.0.0 
+# to the `pixelpotato` repository in DockerHub
+docker push pixelpotato/python-helloworld:v1.0.0
+```
