@@ -128,3 +128,30 @@ docker tag python-helloworld pixelpotato/python-helloworld:v1.0.0
 # to the `pixelpotato` repository in DockerHub
 docker push pixelpotato/python-helloworld:v1.0.0
 ```
+- The Container Orchestrator Framework
+  - Framework that has capability to create, manage, configure thousands of containers on a set of distributed servers while preserving the connectivity and reachability of these containers.
+  - Example: Docker Swarm, Apache Mesos, CoreOS Fleet and **Kubernetes**. Kubernetes took the lead in defining the principles of how to run containerized workloads on a distributed amount of machines.
+  - Kubernetes is a graduated CNCF project and is widely adopted in the industry today. Kubernetes solutionizes:
+    - Portability: highly portable, open-source nature leading to vendor agnosticism, can be hosted on any available infrastructure (including private, public, and hybrid cloud).
+    - Scalability: has built-in resources such as Horizontal Pod Autoscaler (HPA), to determine the required amount of replicas for a service. Elasticity is a core feature that is highly automated within Kubernetes.
+    - Resilience: it is important to be able to recover from failure fast and build a set of playbooks that minimizes the downtime of an application. Kubernetes has ReplicaSet, readiness, and liveness probes to handle most of the container failures, which enable powerful self-healing capability.
+    - Service Discovery: provides cluster level DNS which simplifies the accessibility of workloads within the cluster. Also provides routing and load balancing of incoming traffic, ensuring that all requests are served without application overload.
+    - Extensibility: uses building-block principle - has a set of basic resources that can be easily adjusted. Also provides a rich API interface (Custom Resource Definitions - CRD) that can be extended to accomodate new resources.
+    - Operational Cost: efficiency of resource consumption within a Kubernetes cluster, such as CPU and memory.
+- Kubernetes Architecture:
+    ![image](https://user-images.githubusercontent.com/13144571/124419576-f4a96e00-dd87-11eb-9ee4-ab25ce935b31.png)
+  - Kubernetes cluster is composed of a collection of nodes. Nodes are categorized into: master and worker nodes. Nodes could be distributed physical or virtual servers. The components installed on a node, determine the functionality of a node and identifies it as a master or worker node. The collection of master nodes represents the control plane, while the collection of worker nodes represents the data plane.
+  - The Control Plane: concists of components that make global decisions about the cluster.
+    - ![image](https://user-images.githubusercontent.com/13144571/124420384-97162100-dd89-11eb-9698-c6d1eafbca4f.png)
+    - Control plane components are:
+      - **kube-apiserver** - the nucleus of the cluster that exposes the Kubernetes API, and handles and triggers any operations within the cluster
+      - **kube-scheduler** - the mechanism that places the new workloads on a node with sufficient satisfactory resource requirements
+      - **kube-controller-manager** - the component that handles controller processes. It ensures that the desired configuration is propagated to resources
+      - **etcd** - the key-value store, used for backs-up and keeping manifests for the entire cluster
+  - There are two additional components on the control plane, they are **kubelet** and **k-proxy**. These two are special and important as they are installed on all node. You can see the Data Plane below for more details.
+  - Data Plane: consists of the compute used to host workloads
+    - ![image](https://user-images.githubusercontent.com/13144571/124420567-e2303400-dd89-11eb-8b6a-d1ccd7ea4cd3.png)
+    - Data plane components are:
+      - **kubelet** - the agent that runs on every node and notifies the kube- apiserver that this node is part of the cluster
+      - **kube-proxy** - a network proxy that ensures the reachability and accessibility of workloads places on this specific node
+    - Important Note: The kubelet and kube-proxy components are installed on all the nodes in the cluster (master and worker nodes). These components keep the kube-apiserver up-to-date with a list of nodes in the cluster and manages the connectivity and reachability of the workloads.
