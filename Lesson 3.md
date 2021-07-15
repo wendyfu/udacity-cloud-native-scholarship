@@ -155,3 +155,40 @@ docker push pixelpotato/python-helloworld:v1.0.0
       - **kubelet** - the agent that runs on every node and notifies the kube- apiserver that this node is part of the cluster
       - **kube-proxy** - a network proxy that ensures the reachability and accessibility of workloads places on this specific node
     - Important Note: The kubelet and kube-proxy components are installed on all the nodes in the cluster (master and worker nodes). These components keep the kube-apiserver up-to-date with a list of nodes in the cluster and manages the connectivity and reachability of the workloads.
+- To deploy Kubernetes cluster, you need to make sure that the control plane and data plane components are up and running. This process is referred as bootstrapping of a cluster. It is possible to manually bootstrap a cluster, but it is not recommended since it is a highly tedious task that has a higher risk of misconfiguration.
+- To access a Kubernetes cluster, a **kubeconfig** file is required. A kubeconfig file has all the necessary cluster metadata and authentication details, that grants the user permission to query the cluster objects.
+  - Usually, the kubeconfig file is stored locally under the `~/.kube/config` file. However, k3s places the kubeconfig file within `/etc/rancher/k3s/k3s.yaml` path.
+  - Additionally, the location of a kubeconfig file can be set through the --kubeconfig kubectl flag or via the KUBECONFIG environmental variable.
+- A kubeconfig file has 3 main distinct sections:
+  1. Cluster: encapsulates the metadata for a cluster, such as the name of the cluster, API server endpoint, and certificate authority used to check the identity of the user.
+  2. User: contains the user details that want access to the cluster, including the user name, and any authentication metadata, such as username, password, token or client, and key certificates.
+  3. Context: links a user to a cluster. If the user credentials are valid and the cluster is up, access to resources is granted. Also, a `current-context` can be specified, which instructs which context (cluster and user) should be used to query the cluster.
+Example of a kubeconfig file:
+```
+apiVersion: v1
+# define the cluster metadata 
+clusters:
+- cluster:
+    certificate-authority-data: {{ CA }}
+    server: https://127.0.0.1:63668
+  name: udacity-cluster
+# define the user details 
+users:
+# `udacity-user` user authenticates using client and key certificates 
+- name: udacity-user
+  user:
+    client-certificate-data: {{ CERT }}
+    client-key-data: {{ KEY }}
+# `green-user` user authenticates using a token
+- name: green-user
+  user:
+    token: {{ TOKEN }}
+# define the contexts 
+contexts:
+- context:
+    cluster: udacity-cluster
+    user: udacity-user
+  name: udacity-context
+# set the current context
+current-context: udacity-context
+```
