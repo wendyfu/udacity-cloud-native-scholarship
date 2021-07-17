@@ -192,3 +192,24 @@ contexts:
 # set the current context
 current-context: udacity-context
 ```
+- Kubernetes Resources:
+  - Pod - smallest manageable unit within a cluster that provides the execution environment for an application
+  - ReplicaSet - a mechanism to ensure a number of pod replicas are up and running at all times
+  - Deployment - describe the desired state of the application to be deployed
+- Rolling out Strategies:
+![image](https://user-images.githubusercontent.com/13144571/126027187-9398276c-8a95-4793-bb5b-ba1197cdebcf.png)
+1. The Go hello-world application is running version v1.0.0 in a pod managed by a ReplicaSet
+2. The version of Go hello-world application is set to v2.0.0
+3. A new ReplicaSet is created that controls a new pod with the application running in version v2.0.0
+4. The traffic is directed to the pod running v2.0.0 and the pod with the old configuration (v1.0.0) is removed
+- Services
+  - Within a cluster, every pod is allocated 1 unique IP which ensures connectivity and reachability to the application inside the pod. For example, we can connect a workload within the cluster to access a pod directly via its IP. However, if the pod dies, all future requests will fail, as these are routes to an application that is not running. The remediation step is to configure the workload to communicate with a different pod IP. This is a highly manual process, which brings complexity to the accessibility of an application. To automate the reachability to pods, a Service resource is necessary.
+  - ![image](https://user-images.githubusercontent.com/13144571/126027298-93ab617f-8031-4fe6-87e5-4a1fae58ce4d.png)
+  - A Service resource provides an abstraction layer over a collection of pods running an application. A Service is allocated a cluster IP, that can be used to transfer the traffic to any available pods for an application. As such, as shown in the above image, instead of accessing each pod independently, the workload (1) should access the service IP (2), which routes the requests to available pods (3).
+  - There are 3 widely used Service types:
+    - ClusterIP - exposes the service using an internal cluster IP. If no service type is specified, a ClusterIP service is created by default.
+    - NodePort - expose the service using a port exposed on all nodes in the cluster.
+    - LoadBalancer - exposes the service through a load balancer from a public cloud provider such as AWS, Azure, or GCP. This will allow the external traffic to reach the services within the cluster securely.
+- Ingress resources enabling access from the external users to services within the cluster. An Ingress exposes HTTP and HTTPS routes to services within the cluster, using a load balancer provisioned by a cloud provider. Additionally, an Ingress resource has a set of rules that are used to map HTTP(S) endpoints to services running in the cluster. To keep the Ingress rules and load balancer up-to-date an **Ingress Controller** is introduced.
+  - ![image](https://user-images.githubusercontent.com/13144571/126027329-66790202-437d-4743-ab3a-1ef59be4137c.png)
+  - For example, as shown in the image above, the customers will access the go-helloworld.com/hi HTTP route (1), which is managed by an Ingress (2). The Ingress Controller (3) examines the configured routes and directs the traffic to a LoadBalancer (4). And finally, the LoadBalancer directs the requests to the pods using a dedicated port (5).
