@@ -18,3 +18,15 @@ In this lesson, we will explore how to use cloud-native tooling to construct a C
 - Overall, a delivery pipeline consists of two phases:
   1. Continuous Integration (or CI) includes the build, test, and package stages.
   2. Continuous Delivery (or CD) handles the deploy stage.
+
+- The result of CI represents a Docker image or an artifact that is OCI compliant. CI stages consist of:
+  - Build: compiles the application source code and associated dependencies. Build stage occurs inside the Dockerfile.
+  - Test: validate the behavior of application
+  - Package: produce an executable that contains the latest features and their dependencies. This stage is implemented using `docker build` and `docker push` commands.
+
+- There are plenty of tools that automate the Continuous Integration stages, such as Jenkins, CircleCI, Concourse, and Spinnaker.
+- GitHub Actions are event-driven workflows that can be executed when a new commit is available, on external or scheduled events.
+- For CI, GitHub actions are used to build and test the code. These GitHub actions can be easily integrated within any repository and provide immediate response whenever a commit passes the quality check. GitHub actions are supported for multiple programming languages and can offer tailored notifications (e.g. in Slack) and status badges for a project (such as whenever a workflow has passed or failed).
+- ![image](https://user-images.githubusercontent.com/13144571/126334718-e78dc278-9368-4e3e-b95f-eda90d91d6f9.png)
+- A GitHub action consists of one or more jobs. A job contains a sequence of steps that execute standalone commands, known as actions. When an event occurs, the GitHub Action is triggered and executes the sequence of commands to perform an operation, such as code build or test.
+- GitHub Actions are configured using YAML syntax, hence uses the .yaml or .yml file extensions. These files are stored in .github/workflows directory within the code repository.
