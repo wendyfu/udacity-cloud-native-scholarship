@@ -30,3 +30,9 @@ In this lesson, we will explore how to use cloud-native tooling to construct a C
 - ![image](https://user-images.githubusercontent.com/13144571/126334718-e78dc278-9368-4e3e-b95f-eda90d91d6f9.png)
 - A GitHub action consists of one or more jobs. A job contains a sequence of steps that execute standalone commands, known as actions. When an event occurs, the GitHub Action is triggered and executes the sequence of commands to perform an operation, such as code build or test.
 - GitHub Actions are configured using YAML syntax, hence uses the .yaml or .yml file extensions. These files are stored in .github/workflows directory within the code repository.
+
+- The ecosystem is rich in the collection of tools that automate the Continuous Delivery stage, such as Jenkins, CircleCI, Concourse, and Spinnaker. However, in this lesson, we will explore ArgoCD to propagate an application to multiple Kubernetes clusters.
+- ArgoCD operates on configuration stored in manifests (declarative) and uses Git repositories as the source of truth for the desired state of an application (GitOps pattern).
+- Additionally, ArgoCD offers deployment to target environments and multiple clusters, and support for multiple config management tools (such as plain YAML, Helm, Kustomize).
+- If you'd like to manage the manifest for multiple microservices, ArgoCD provides the App of Apps technique. For example, it can use an Web-store application to manage the application CRDs for the UI, Login, and Payment components.  You'll have one endpoint to control the release and management of multiple microservices.
+  - ![image](https://user-images.githubusercontent.com/13144571/126448518-9de4ab6c-837f-437b-852a-9ccb2993c881.png)
